@@ -150,16 +150,12 @@
     <!-- In Hóa đơn -->
     <div id="hoadon" class="tab">
         <h2>In Hóa đơn Thanh toán</h2>
-        <form>
-            <label>Chọn khách hàng:</label>
-            <select>
-                <option>Nguyễn Văn A</option>
-                <option>Trần Thị B</option>
-            </select>
-            <label>Chi tiết hóa đơn:</label>
-            <textarea rows="5" style="width:100%;" placeholder="Chi tiết dịch vụ, số đêm, giá..."></textarea>
+        <form method="get" action="invoice" target="_blank">
+            <label>Nhập mã đặt phòng:</label>
+            <input type="text" name="bookingId" required>
             <button type="submit">In Hóa đơn</button>
         </form>
+
     </div>
 </div>
 
