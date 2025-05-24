@@ -152,10 +152,9 @@
         <h2>In Hóa đơn Thanh toán</h2>
         <form method="get" action="invoice" target="_blank">
             <label>Nhập mã đặt phòng:</label>
-            <input type="text" name="bookingId" required>
+            <input type="text" name="id" required>
             <button type="submit">In Hóa đơn</button>
         </form>
-
     </div>
 </div>
 
