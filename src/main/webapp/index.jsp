@@ -1,4 +1,8 @@
+<%@ page import="model.MyConnectDB" %>
+<%@ page import="java.sql.ResultSet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -119,30 +123,42 @@
     <!-- Quản lý Khách hàng -->
     <div id="khachhang" class="tab">
         <h2>Quản lý Khách hàng</h2>
-        <form>
-            <label>Họ tên:</label>
-            <input type="text">
-            <label>CMND/CCCD:</label>
-            <input type="text">
-            <label>Số điện thoại:</label>
-            <input type="text">
-            <button type="submit">Thêm Khách hàng</button>
+        <!-- 4. Hệ thống gửi yêu cầu đến SearchCustomerServlet -->
+        <form action="searchCustomer" method="get">
+            <input type="text" name="keyword" placeholder="Nhập tên, số điện thoại..." required />
+            <button type="submit">Tìm kiếm</button>
         </form>
         <h3>Danh sách Khách hàng</h3>
+
+        <%
+            MyConnectDB con= new MyConnectDB();
+            ResultSet rs = con.corecttoDB("SELECT * FROM customer");
+        %>
         <table>
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Họ tên</th>
-                <th>CMND/CCCD</th>
                 <th>SĐT</th>
+                <th>Cccd</th>
             </tr>
             </thead>
             <tbody>
+            <%
+                while(rs.next()){
+            %>
+
             <tr>
-                <td>Nguyễn Văn A</td>
-                <td>123456789</td>
-                <td>0901234567</td>
+                <td><%=rs.getInt(1)%></td>
+                <td><%=rs.getString(2)%></td>
+                <td><%=rs.getString(3)%></td>
+                <td><%=rs.getString(4)%></td>
             </tr>
+
+
+            <%
+                }
+            %>
             </tbody>
         </table>
     </div>
@@ -150,9 +166,14 @@
     <!-- In Hóa đơn -->
     <div id="hoadon" class="tab">
         <h2>In Hóa đơn Thanh toán</h2>
-        <form method="get" action="invoice" target="_blank">
-            <label>Nhập mã đặt phòng:</label>
-            <input type="text" name="id" required>
+        <form>
+            <label>Chọn khách hàng:</label>
+            <select>
+                <option>Nguyễn Văn A</option>
+                <option>Trần Thị B</option>
+            </select>
+            <label>Chi tiết hóa đơn:</label>
+            <textarea rows="5" style="width:100%;" placeholder="Chi tiết dịch vụ, số đêm, giá..."></textarea>
             <button type="submit">In Hóa đơn</button>
         </form>
     </div>
