@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -65,12 +66,71 @@
 </header>
 <nav>
     <button onclick="showTab('phong')">Quản lý Phòng</button>
-    <button onclick="showTab('datphong')">Đặt/Trả Phòng</button>
+    <button onclick="showTab('datphong')">Đặt Phòng</button>
+    <button onclick="showTab('traphong')">Trả Phòng</button>
     <button onclick="showTab('khachhang')">Quản lý Khách hàng</button>
     <button onclick="showTab('hoadon')">Hóa đơn</button>
 </nav>
 
 <div class="content">
+    <div id="khachhang" class="tab">
+        <h2>Quản lý Khách hàng</h2>
+        <form action="searchCustomer" method="get">
+            <input type="text" name="keyword" placeholder="Nhập tên, số điện thoại..." required />
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <h3>Danh sách Khách hàng</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th>SĐT</th>
+                <th>CCCD</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="customer" items="${customers}">
+                <tr>
+                    <td>${customer.id}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.phone}</td>
+                    <td>${customer.identityNumber}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="hoadon" class="tab">
+        <h2>Hóa đơn Thanh toán</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Mã đặt phòng</th>
+                <th>Khách hàng</th>
+                <th>Phòng</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả</th>
+                <th>Thành tiền</th>
+                <th>Chi tiết</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="invoice" items="${activeBookings}">
+                <tr>
+                    <td>${invoice.id}</td>
+                    <td>${invoice.customer.name}</td>
+                    <td>${invoice.room.roomNumber}</td>
+                    <td>${invoice.checkinDate}</td>
+                    <td>${invoice.checkoutDate}</td>
+                    <td>${invoice.totalPrice} VND</td>
+                    <td><a href="/HotelManagement_war/invoice?bookingId=${invoice.id}">🧾 Xem Hóa Đơn</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
     <!-- Quản lý Phòng -->
     <div id="phong" class="tab active">
         <h2>Danh sách Phòng</h2>
@@ -83,83 +143,93 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>101</td>
-                <td>Đơn</td>
-                <td>Trống</td>
-            </tr>
-            <tr>
-                <td>102</td>
-                <td>Đôi</td>
-                <td>Đã đặt</td>
-            </tr>
+            <c:forEach var="room" items="${availableRooms}">
+                <tr>
+                    <td>${room.roomNumber}</td>
+                    <td>${room.type}</td>
+                    <td>${room.status}</td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>
 
-    <!-- Đặt/Trả Phòng -->
+    <!-- Đặt Phòng -->
     <div id="datphong" class="tab">
-        <h2>Ghi nhận Đặt/Trả Phòng</h2>
-        <form>
-            <label>Chọn khách hàng:</label>
-            <select>
-                <option>Nguyễn Văn A</option>
-                <option>Trần Thị B</option>
-            </select>
+        <h2>Đặt Phòng</h2>
+        <form action="/HotelManagement_war/bookRoom" method="post" onsubmit="return validateBookingForm()">
+            <label>Số điện thoại khách hàng:</label>
+            <input type="text" name="phone" placeholder="Nhập 10 số, bắt đầu bằng 0" required onblur="fetchCustomerInfo(this.value)">
+            <div id="customerInfo">
+                <label>Họ tên khách:</label>
+                <input type="text" name="customerName" placeholder="Nhập họ tên">
+                <label>CCCD:</label>
+                <input type="text" name="identityNumber" placeholder="Nhập số CCCD">
+            </div>
             <label>Số phòng:</label>
-            <input type="text" placeholder="VD: 101">
-            <label>Ngày đặt:</label>
-            <input type="date">
-            <label>Ngày trả:</label>
-            <input type="date">
+            <select name="roomId" required>
+                <option value="">Chọn phòng</option>
+                <c:forEach var="room" items="${availableRooms}">
+                    <option value="${room.id}">${room.roomNumber} (${room.type})</option>
+                </c:forEach>
+            </select>
+            <label>Ngày đặt (yyyy-MM-dd):</label>
+            <input type="date" name="checkInDate" required>
+            <label>Ngày trả (yyyy-MM-dd):</label>
+            <input type="date" name="checkOutDate" required>
             <button type="submit">Lưu thông tin</button>
         </form>
     </div>
 
-    <!-- Quản lý Khách hàng -->
-    <div id="khachhang" class="tab">
-        <h2>Quản lý Khách hàng</h2>
-        <form>
-            <label>Họ tên:</label>
-            <input type="text">
-            <label>CMND/CCCD:</label>
-            <input type="text">
-            <label>Số điện thoại:</label>
-            <input type="text">
-            <button type="submit">Thêm Khách hàng</button>
+    <!-- Trả Phòng -->
+    <div id="traphong" class="tab">
+        <h2>Trả Phòng</h2>
+        <form action="/HotelManagement_war/checkOut" method="post" onsubmit="return validateCheckOutForm()">
+            <label>Mã đặt phòng:</label>
+            <select name="bookingId" required>
+                <option value="">Chọn mã đặt phòng</option>
+                <c:forEach var="booking" items="${activeBookings}">
+                    <option value="${booking.id}">Mã: ${booking.id} - Phòng: ${booking.room.roomNumber} - Khách: ${booking.customer.name}</option>
+                </c:forEach>
+            </select>
+            <label>Phương thức thanh toán:</label>
+            <select name="paymentMethod" required>
+                <option value="Tiền mặt">Tiền mặt</option>
+                <option value="Chuyển khoản">Chuyển khoản</option>
+                <option value="Thẻ">Thẻ</option>
+            </select>
+            <button type="submit">Trả phòng</button>
         </form>
-        <h3>Danh sách Khách hàng</h3>
-        <table>
-            <thead>
-            <tr>
-                <th>Họ tên</th>
-                <th>CMND/CCCD</th>
-                <th>SĐT</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Nguyễn Văn A</td>
-                <td>123456789</td>
-                <td>0901234567</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- In Hóa đơn -->
-    <div id="hoadon" class="tab">
-        <h2>In Hóa đơn Thanh toán</h2>
-        <form method="get" action="invoice" target="_blank">
-            <label>Nhập mã đặt phòng:</label>
-            <input type="text" name="bookingId" required>
-            <button type="submit">In Hóa đơn</button>
-        </form>
-
     </div>
 </div>
-
+<c:forEach var="booking" items="${bookings}">
+    <a href="/HotelManagement_war/invoice?bookingId=${booking.id}">🧾 Xem Hóa Đơn</a>
+</c:forEach>
 <script>
+    function fetchCustomerInfo(phone) {
+        if (!/^(0[0-9]{9})$/.test(phone)) {
+            alert("Số điện thoại phải có 10 chữ số và bắt đầu bằng 0!");
+            return;
+        }
+
+        fetch(`/HotelManagement_war/getCustomerByPhone?phone=` + phone)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Dữ liệu từ API:", data); // Kiểm tra dữ liệu API
+                if (data && data.name && data.identityNumber) {
+                    document.querySelector('[name="customerName"]').value = data.name;
+                    document.querySelector('[name="identityNumber"]').value = data.identityNumber;
+                    document.querySelector('[name="customerName"]').setAttribute("readonly", true);
+                    document.querySelector('[name="identityNumber"]').setAttribute("readonly", true);
+                } else {
+                    document.querySelector('[name="customerName"]').value = "";
+                    document.querySelector('[name="identityNumber"]').value = "";
+                    document.querySelector('[name="customerName"]').removeAttribute("readonly");
+                    document.querySelector('[name="identityNumber"]').removeAttribute("readonly");
+                }
+            })
+            .catch(error => console.error("Lỗi khi lấy thông tin khách hàng:", error));
+    }
     function showTab(tabId) {
         const tabs = document.querySelectorAll('.tab');
         tabs.forEach(tab => tab.classList.remove('active'));

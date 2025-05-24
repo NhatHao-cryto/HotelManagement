@@ -3,4 +3,66 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+    <!-- HomeServlet -->
+    <servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>controller.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <!-- GetCustomerByPhoneServlet -->
+    <servlet>
+        <servlet-name>GetCustomerByPhoneServlet</servlet-name>
+        <servlet-class>controller.GetCustomerByPhoneServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCustomerByPhoneServlet</servlet-name>
+        <url-pattern>/getCustomerByPhone</url-pattern>
+    </servlet-mapping>
+    <!-- BookRoomServlet -->
+    <servlet>
+        <servlet-name>BookRoomServlet</servlet-name>
+        <servlet-class>controller.BookRoomServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookRoomServlet</servlet-name>
+        <url-pattern>/bookRoom</url-pattern>
+    </servlet-mapping>
+
+    <!-- CheckOutServlet -->
+    <servlet>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <servlet-class>controller.CheckOutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <url-pattern>/checkOut</url-pattern>
+    </servlet-mapping>
+
+    <!-- InvoiceServlet -->
+    <servlet>
+        <servlet-name>InvoiceServlet</servlet-name>
+        <servlet-class>controller.InvoiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InvoiceServlet</servlet-name>
+        <url-pattern>/invoice</url-pattern>
+    </servlet-mapping>
+
+    <!-- AddCustomerServlet (định nghĩa duy nhất) -->
+    <servlet>
+        <servlet-name>AddCustomerServlet</servlet-name>
+        <servlet-class>controller.AddCustomerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCustomerServlet</servlet-name>
+        <url-pattern>/addCustomer</url-pattern>
+    </servlet-mapping>
+
+    <!-- Welcome file -->
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
 </web-app>

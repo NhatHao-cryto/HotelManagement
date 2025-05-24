@@ -6,36 +6,17 @@ public class CustomerModel {
     private String phone;
     private String identityNumber;
 
-    public int getId() {
-        return id;
-    }
+    public CustomerModel() {}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    // Getters
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getPhone() { return phone; }
+    public String getIdentityNumber() { return identityNumber; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getIdentityNumber() {
-        return identityNumber;
-    }
-
-    public void setIdentityNumber(String identityNumber) {
-        this.identityNumber = identityNumber;
-    }
+    // Setters
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setIdentityNumber(String identityNumber) { this.identityNumber = identityNumber; }
 }
-

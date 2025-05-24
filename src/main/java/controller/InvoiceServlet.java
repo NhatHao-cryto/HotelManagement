@@ -14,7 +14,6 @@ import service.BookingService;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/invoice")
 public class InvoiceServlet extends HttpServlet {
     private BookingService bookingService = new BookingService();
 
@@ -24,13 +23,17 @@ public class InvoiceServlet extends HttpServlet {
 
         String bookingIdStr = request.getParameter("bookingId");
 
-        if (bookingIdStr == null || bookingIdStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu bookingId");
+        if (bookingIdStr == null || bookingIdStr.isEmpty() || !bookingIdStr.matches("\\d+")) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Lỗi: bookingId không hợp lệ!");
             return;
         }
-
         int bookingId = Integer.parseInt(bookingIdStr);
-        BookingModel booking = bookingService.getInvoiceByBookingId(bookingId);
+        BookingModel booking = null;
+        try {
+            booking = bookingService.getInvoiceByBookingId(bookingId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
