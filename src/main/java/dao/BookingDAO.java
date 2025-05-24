@@ -3,7 +3,7 @@ package dao;
 import model.BookingModel;
 import model.CustomerModel;
 import model.RoomModel;
-import util.DBUtil;
+import util.DbConnect;
 
 import java.sql.*;
 
@@ -22,7 +22,7 @@ public class BookingDAO {
             WHERE b.id = ?
         """;
 
-        try (Connection conn = DBUtil.getConnection();
+        try (Connection conn = DbConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, bookingId);
