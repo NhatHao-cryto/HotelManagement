@@ -70,7 +70,7 @@
 <h1>Kết quả tìm kiếm khách hàng</h1>
 
 <%
-    //6.	Nếu tìm thấy khách hàng khớp với từ khóa
+    //4.6.	Nếu tìm thấy khách hàng khớp với từ khóa
     //      hiển thị trên trang searchCustomer.jsp.
     // Lấy danh sách khách hàng từ request attribute
     List<Customer> customers = (List<Customer>) request.getAttribute("customers");
@@ -98,7 +98,7 @@
     </tbody>
 </table>
 <% } else { %>
-<!-- 7.	Nếu không tìm thấy ,thông báo Không tìm thấy khách hàng nào -->
+<!-- 4.7.	Nếu không tìm thấy ,thông báo Không tìm thấy khách hàng nào -->
 <p>Không tìm thấy khách hàng nào.</p>
 <% } %>
 <a href="index.jsp" class="btn">Quay lại</a>

@@ -52,4 +52,3 @@ public class MyConnectDB {
         System.out.println(connect.connect());
     }
 }
-

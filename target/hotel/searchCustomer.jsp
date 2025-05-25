@@ -98,7 +98,7 @@
     </tbody>
 </table>
 <% } else { %>
-<!-- 7.	Nếu không tìm thấy ,thông báo Không tìm thấy khách hàng nào -->
+<!-- 4.7.	Nếu không tìm thấy ,thông báo Không tìm thấy khách hàng nào -->
 <p>Không tìm thấy khách hàng nào.</p>
 <% } %>
 <a href="index.jsp" class="btn">Quay lại</a>

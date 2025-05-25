@@ -123,7 +123,7 @@
     <!-- Quản lý Khách hàng -->
     <div id="khachhang" class="tab">
         <h2>Quản lý Khách hàng</h2>
-        <!-- 4. Hệ thống gửi yêu cầu đến SearchCustomerServlet -->
+        <!-- 4.4. Hệ thống gửi yêu cầu đến SearchCustomerServlet -->
         <form action="searchCustomer" method="get">
             <input type="text" name="keyword" placeholder="Nhập tên, số điện thoại..." required />
             <button type="submit">Tìm kiếm</button>
@@ -132,7 +132,16 @@
 
         <%
             MyConnectDB con= new MyConnectDB();
-            ResultSet rs = con.corecttoDB("SELECT * FROM customer");
+            ResultSet rs = con.corecttoDB("SELECT \n" +
+                    "    c.id, c.name, c.phone, c.identityNumber, \n" +
+                    "    r.roomNumber, b.checkin, b.checkout\n" +
+                    "FROM \n" +
+                    "    customer c\n" +
+                    "JOIN \n" +
+                    "    booking b ON b.customer_id = c.id\n" +
+                    "JOIN \n" +
+                    "    room r ON r.id = b.room_id\n" +
+                    "LIMIT 0, 25;");
         %>
         <table>
             <thead>
@@ -141,6 +150,10 @@
                 <th>Họ tên</th>
                 <th>SĐT</th>
                 <th>Cccd</th>
+                <th>room</th>
+                <th>checkin</th>
+                <th>checkout</th>
+
             </tr>
             </thead>
             <tbody>
@@ -153,6 +166,9 @@
                 <td><%=rs.getString(2)%></td>
                 <td><%=rs.getString(3)%></td>
                 <td><%=rs.getString(4)%></td>
+                <td><%=rs.getString(5)%></td>
+                <td><%=rs.getDate(6)%></td>
+                <td><%=rs.getDate(7)%></td>
             </tr>
 
 
