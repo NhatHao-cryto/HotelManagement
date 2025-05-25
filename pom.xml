@@ -25,7 +25,12 @@
             <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.2.5</version>
+            <type>pom</type>
+        </dependency>
         <!-- JSTL API and Implementation -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>

@@ -67,22 +67,21 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border-left-color: #1e40af;
-      animation: spin 1s linear infinite;
+    .status-icon {
+      font-size: 3rem;
       margin: 0 auto 1rem;
+      display: block;
+      text-align: center;
+    }
+    .success-icon {
+      color: #1e40af;
+    }
+    .error-icon {
+      color: #dc2626;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -95,7 +94,7 @@
           <h1 class="fs-3 mb-0"><i class="fas fa-check-circle me-2"></i> Trả Phòng Thành Công! 🎉</h1>
         </div>
         <div class="card-body">
-          <div class="spinner"></div>
+          <i class="fas fa-check-circle status-icon success-icon"></i>
           <p><strong><i class="fas fa-receipt me-2"></i> Mã thanh toán:</strong> ${payment.id}</p>
           <p><strong><i class="fas fa-ticket-alt me-2"></i> Mã đặt phòng:</strong> ${payment.bookingId}</p>
           <p><strong><i class="fas fa-money-bill me-2"></i> Số tiền:</strong>
@@ -110,6 +109,7 @@
           <h1 class="fs-3 mb-0"><i class="fas fa-exclamation-triangle me-2"></i> Lỗi Trả Phòng ⚠️</h1>
         </div>
         <div class="card-body">
+          <i class="fas fa-exclamation-triangle status-icon error-icon"></i>
           <p><strong>Thông báo:</strong> ${errorMessage}</p>
           <a href="${pageContext.request.contextPath}/" class="btn btn-primary mt-3"><i class="fas fa-arrow-left me-2"></i> Quay lại Trang chủ</a>
         </div>

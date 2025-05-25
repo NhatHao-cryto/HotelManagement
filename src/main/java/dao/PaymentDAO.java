@@ -25,4 +25,23 @@ public class PaymentDAO {
             return payment;
         }
     }
+
+    public PaymentModel getPaymentByBookingId(int bookingId) throws SQLException {
+        String sql = "SELECT id, booking_id, amount, payment_date, method FROM payments WHERE booking_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                PaymentModel payment = new PaymentModel();
+                payment.setId(rs.getInt("id"));
+                payment.setBookingId(rs.getInt("booking_id"));
+                payment.setAmount(rs.getDouble("amount"));
+                payment.setPaymentDate(rs.getTimestamp("payment_date"));
+                payment.setMethod(rs.getString("method"));
+                return payment;
+            }
+            return null;
+        }
+    }
 }

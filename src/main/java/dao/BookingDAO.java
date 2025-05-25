@@ -71,12 +71,12 @@ public class BookingDAO {
                     System.out.println("Mã đặt phòng mới: " + booking.getId());
                 }
             } else {
-                System.err.println("❌ Lỗi: Không có dòng nào được chèn vào bảng bookings!");
+                System.err.println("Lỗi: Không có dòng nào được chèn vào bảng bookings!");
             }
             return booking;
 
         } catch (SQLException e) {
-            System.err.println("❌ Lỗi SQL khi lưu đặt phòng: " + e.getMessage());
+            System.err.println("Lỗi SQL khi lưu đặt phòng: " + e.getMessage());
             throw e;
         }
     }
